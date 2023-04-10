@@ -47,7 +47,7 @@ app.get('/api/anime',(req,res)=>{
             const themeElement = parentElement.querySelector('.properties > .property:nth-child(3) > .item > a');
             const theme = themeElement?themeElement.textContent.trim() : null;
             const scoreElement = parentElement.querySelector('.scormem-item.score');
-            const score = scoreElement?scoreElement.textContent.trim(): null;
+            const score = scoreElement.textContent.trim() == 'N/A' ?null: scoreElement.textContent.trim();
             const memberElement = parentElement.querySelector('.scormem-item.member');
             const member = memberElement?memberElement.textContent.trim(): null;
             console.log('Title:', title);

@@ -1,4 +1,4 @@
-GET https://animeapi-qqzb.onrender.com/api/anime
+GET https://animeapi-qqzb.onrender.com/api/animeList
 
 ###
 GET http://localhost:8000/api/anime

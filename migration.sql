@@ -5,10 +5,10 @@ CREATE TABLE anime(
     title text,
     synosis text,
     image text,
-    studio text,
+    studio varchar,
     source varchar,
     theme varchar,
-    score text
+    score numeric
 );
 CREATE TABLE animeGenre(
     id serial PRIMARY KEY,
