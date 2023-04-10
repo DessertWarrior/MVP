@@ -1,13 +1,14 @@
-DROP TABLE IF EXISTS anime;
-DROP TABLE IF EXISTS animeGenre;
+DROP TABLE IF EXISTS anime CASCADE;
+DROP TABLE IF EXISTS animeGenre CASCADE;
 CREATE TABLE anime(
     id serial PRIMARY KEY,
-    name text,
-    decription text,
-    date_released varchar(15),
-    total_episode INT,
-    rating varchar(15),
-    image text
+    title text,
+    synosis text,
+    image text,
+    studio text,
+    source varchar,
+    theme varchar,
+    score text
 );
 CREATE TABLE animeGenre(
     id serial PRIMARY KEY,

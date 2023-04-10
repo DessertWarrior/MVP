@@ -1,1 +1,10 @@
-GET https://myanimelist.net/anime/season/2023/spring
+GET https://animeapi-qqzb.onrender.com/api/anime
+
+###
+GET http://localhost:8000/api/anime
+
+###
+GET https://myanimelist.net/anime/51019/Kimetsu_no_Yaiba__Katanakaji_no_Sato-hen
+
+###
+GET https://api.myanimelist.net/v2/anime/season/2023/spring
