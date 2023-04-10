@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const {Pool} = require('pg');
 const express = require('express');
 const { JSDOM } = require('jsdom');
-const { generateKey } = require('crypto');
+const fetch = require('isomorphic-fetch');
 const app = express();
 dotenv.config();
 console.log(process.env.DATABASE_URL);
@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/anime',(req,res)=>{
+    console.log('hi');
     fetch('https://myanimelist.net/anime/season/2023/spring')
     .then(response=>response.text())
     .then(data=>{
@@ -71,9 +72,18 @@ app.get('/api/animeList',(req,res)=>{
 })
 
 app.patch('/api/animeList/:id',(req,res)=>{
-    let 
+    let id = req.params.id;
+    if (isNaN(id))  next(404);
 })
-
+app.use((error,req,res)=>{
+    if (error === 404)
+    res.status(404).send('Not found');
+    else if (error === 400)
+    res.status(400).send('Bad request');
+})
+app.use((req,res)=>{
+    res.status(500).send('Internal Server Error');
+})
 app.listen(port,()=>{
     console.log(`Listening to port ${port}`)
 })
