@@ -8,7 +8,7 @@ CREATE TABLE anime(
     studio varchar,
     source varchar,
     theme varchar,
-    score numeric
+    score NUMERIC
 );
 CREATE TABLE animeGenre(
     id serial PRIMARY KEY,
