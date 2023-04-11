@@ -1,13 +1,13 @@
 GET https://animeapi-qqzb.onrender.com/api/animeList
 ###
-GET http://localhost:8000/api/anime
+GET http://localhost:8000/animeList
 
 ###
-PATCH http://localhost:8000/api/animeList/2
+PATCH http://localhost:8000/api/animeList/21
 Content-Type: application/json
 
 {
-    
+    "image":"https://cdn.myanimelist.net/images/anime/1794/135148.webp"
 }
 
 ###

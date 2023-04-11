@@ -20,78 +20,83 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/api/anime',(req,res)=>{
-    console.log('hi');
-    fetch('https://myanimelist.net/anime/season/2023/spring')
-    .then(response=>response.text())
-    .then(data=>{
-        const dom = new JSDOM(data);
-        const document = dom.window.document;
-        const newContent = document.querySelector('.seasonal-anime-list');
-        //this is the card content
-        const parentElements = newContent.querySelectorAll('.js-anime-category-producer');
-        parentElements.forEach(parentElement=>{
-            const titleElement = parentElement.querySelector('.title-text > .h2_anime_title > a');
-            const title = titleElement?titleElement.textContent.trim(): null;
-            // const synopsisElement = parentElement.querySelector('.synopsis > p.preline');
-            // const synopsis = synopsisElement?synopsisElement.textContent.trim(): null;
-            // const imageElement = parentElement.querySelector('.image > a > img');
-            // const imageSrc = imageElement.getAttribute('src');
-            const genresElement = parentElement.querySelector('.genres-inner');
-            const genres = Array.from(genresElement.querySelectorAll('.genre > a')).map(genreElement => genreElement.textContent);
+// app.get('/api/anime',(req,res)=>{
+//     console.log('hi');
+//     fetch('https://myanimelist.net/anime/season/2023/spring')
+//     .then(response=>response.text())
+//     .then(data=>{
+//         const dom = new JSDOM(data);
+//         const document = dom.window.document;
+//         const newContent = document.querySelector('.seasonal-anime-list');
+//         //this is the card content
+//         const parentElements = newContent.querySelectorAll('.js-anime-category-producer');
+//         parentElements.forEach(parentElement=>{
+//             const titleElement = parentElement.querySelector('.title-text > .h2_anime_title > a');
+//             const title = titleElement?titleElement.textContent.trim(): null;
+//             // const synopsisElement = parentElement.querySelector('.synopsis > p.preline');
+//             // const synopsis = synopsisElement?synopsisElement.textContent.trim(): null;
+//             // const imageElement = parentElement.querySelector('.image > a > img');
+//             // const imageSrc = imageElement.getAttribute('src');
+//             const genresElement = parentElement.querySelector('.genres-inner');
+//             const genres = Array.from(genresElement.querySelectorAll('.genre > a')).map(genreElement => genreElement.textContent);
 
-                pg.query(`SELECT id FROM anime WHERE title = $1`,[title]).then(result=>{
-                    for (let j = 0; j< genres.length;j++)
-                    {
-                        pg.query(`INSERT INTO animeGenre(name,genre,anime_id) VALUES($1,$2,$3) RETURNING *`,[title,genres[j],result.rows[0].id]).then(res=>{
-                            console.log(res.rows);
-                        })
-                    }
-                })
+//                 pg.query(`SELECT id FROM anime WHERE title = $1`,[title]).then(result=>{
+//                     for (let j = 0; j< genres.length;j++)
+//                     {
+//                         pg.query(`INSERT INTO animeGenre(name,genre,anime_id) VALUES($1,$2,$3) RETURNING *`,[title,genres[j],result.rows[0].id]).then(res=>{
+//                             console.log(res.rows);
+//                         })
+//                     }
+//                 })
             
-            // const studioElement = parentElement.querySelector('.properties > .property:nth-child(1) > .item > a');
-            // const studio = studioElement?studioElement.textContent.trim(): null;
-            // const sourceElement = parentElement.querySelector('.properties > .property:nth-child(2) > .item');
-            // const source = sourceElement?sourceElement.textContent.trim(): null;
-            // const themeElement = parentElement.querySelector('.properties > .property:nth-child(3) > .item > a');
-            // const theme = themeElement?themeElement.textContent.trim() : null;
-            // const scoreElement = parentElement.querySelector('.scormem-item.score');
-            // const score = scoreElement.textContent.trim() == 'N/A' ?null: scoreElement.textContent.trim();
-            // const memberElement = parentElement.querySelector('.scormem-item.member');
-            // const member = memberElement?memberElement.textContent.trim(): null;
-            // console.log('Title:', title);
-            // console.log('Synopsis:', synopsis);
-            // console.log('Image Source:', imageSrc);
-            // console.log('Genres:', genres);
-            // console.log('Studio:', studio);
-            // console.log('Source:', source);
-            // console.log('Theme:', theme);
-            // console.log('Score:', score);
-            // console.log('Member Count:', member);
-            //const values = [title,synopsis,imageSrc,studio,source,theme,score];
-            //pg.query(`INSERT INTO anime(title,synosis,image,studio,source,theme,score) VALUES($1,$2,$3,$4,$5,$6,$7)`,values)
-        });
-        res.send('good');
-    })
-})
-app.get('/api/animeList',(req,res)=>{
-    pg.query(`SELECT * FROM anime ORDER BY id ASC`).then(response=>{
+//             // const studioElement = parentElement.querySelector('.properties > .property:nth-child(1) > .item > a');
+//             // const studio = studioElement?studioElement.textContent.trim(): null;
+//             // const sourceElement = parentElement.querySelector('.properties > .property:nth-child(2) > .item');
+//             // const source = sourceElement?sourceElement.textContent.trim(): null;
+//             // const themeElement = parentElement.querySelector('.properties > .property:nth-child(3) > .item > a');
+//             // const theme = themeElement?themeElement.textContent.trim() : null;
+//             // const scoreElement = parentElement.querySelector('.scormem-item.score');
+//             // const score = scoreElement.textContent.trim() == 'N/A' ?null: scoreElement.textContent.trim();
+//             // const memberElement = parentElement.querySelector('.scormem-item.member');
+//             // const member = memberElement?memberElement.textContent.trim(): null;
+//             // console.log('Title:', title);
+//             // console.log('Synopsis:', synopsis);
+//             // console.log('Image Source:', imageSrc);
+//             // console.log('Genres:', genres);
+//             // console.log('Studio:', studio);
+//             // console.log('Source:', source);
+//             // console.log('Theme:', theme);
+//             // console.log('Score:', score);
+//             // console.log('Member Count:', member);
+//             //const values = [title,synopsis,imageSrc,studio,source,theme,score];
+//             //pg.query(`INSERT INTO anime(title,synosis,image,studio,source,theme,score) VALUES($1,$2,$3,$4,$5,$6,$7)`,values)
+//         });
+//         res.send('good');
+//     })
+// })
+app.get('/animeList',(req,res)=>{
+    pg.query(`SELECT id, title, image FROM anime ORDER BY id ASC`).then(response=>{
         res.send(response.rows);
     })
 })
-app.get('/api/animeList',(req,res,next)=>{
+app.get('/animeList/:id',(req,res,next)=>{
     let id = req.params.id;
     if (isNaN(id))  next(404);
-    pg.query(`SELECT * FROM anime WHERE id = $1`,[id]).then(response=>{
-        res.send(response.rows[0]);
-    })
-})
-app.get('/api/animeList/:id',(req,res,next)=>{
-    let id = req.params.id;
-    if (isNaN(id))  next(404);
+    console.log('hi');
     pg.query(`SELECT * FROM anime WHERE id = $1`,[id]).then(response=>{
         if (response.rows.length === 0) return next(400);
-        else res.send(response.rows[0]);
+        else {
+            pg.query(`SELECT genre FROM animeGenre WHERE anime_id = $1`,[id]).then(genres=>{
+                let animeDetails = response.rows[0];
+                let temp = [];
+                for (let i = 0; i < genres.rows.length;i ++)
+                {
+                    temp.push(genres.rows[i].genre);
+                }
+                animeDetails.genre = temp;
+                res.send(animeDetails);
+            })
+        }
     })
 })
 app.patch('/api/animeList/:id',(req,res,next)=>{
