@@ -39,16 +39,6 @@ app.get('/', (req, res) => {
 //             // const imageSrc = imageElement.getAttribute('src');
 //             const genresElement = parentElement.querySelector('.genres-inner');
 //             const genres = Array.from(genresElement.querySelectorAll('.genre > a')).map(genreElement => genreElement.textContent);
-
-//                 pg.query(`SELECT id FROM anime WHERE title = $1`,[title]).then(result=>{
-//                     for (let j = 0; j< genres.length;j++)
-//                     {
-//                         pg.query(`INSERT INTO animeGenre(name,genre,anime_id) VALUES($1,$2,$3) RETURNING *`,[title,genres[j],result.rows[0].id]).then(res=>{
-//                             console.log(res.rows);
-//                         })
-//                     }
-//                 })
-            
 //             // const studioElement = parentElement.querySelector('.properties > .property:nth-child(1) > .item > a');
 //             // const studio = studioElement?studioElement.textContent.trim(): null;
 //             // const sourceElement = parentElement.querySelector('.properties > .property:nth-child(2) > .item');
@@ -84,7 +74,7 @@ app.get('/animeList/:id',(req,res,next)=>{
     if (isNaN(id))  next(404);
     console.log('hi');
     pg.query(`SELECT * FROM anime WHERE id = $1`,[id]).then(response=>{
-        if (response.rows.length === 0) return next(400);
+        if (response.rows.length === 0) return next(404);
         else {
             pg.query(`SELECT genre FROM animeGenre WHERE anime_id = $1`,[id]).then(genres=>{
                 let animeDetails = response.rows[0];
@@ -99,6 +89,19 @@ app.get('/animeList/:id',(req,res,next)=>{
         }
     })
 })
+app.post('/api/animeList',(req,res,next)=>{
+    let data = req.body;
+    const values = [data.title,data.synopsis,data.image,data.studio,data.source,data.theme,data.score];
+    pg.query(`INSERT INTO anime(title,synosis,image,studio,source,theme,score) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *`,values)
+    .then(response=>{
+        let animeDetails = response.rows[0];
+        for (let i = 0; i < data.genre.length; i++) { 
+            pg.query(`INSERT INTO animeGenre(name,genre,anime_id) VALUES ($1,$2,$3)`,[data.title,data.genre[i],response.rows[0].id]).catch(e=>next(400));
+        }
+        animeDetails.genre = data.genre;
+    res.status(201).send(animeDetails);
+    }).catch(e=>next(400));
+})
 app.patch('/api/animeList/:id',(req,res,next)=>{
     let id = req.params.id;
     let key = Object.keys(req.body)[0];
@@ -110,6 +113,18 @@ app.patch('/api/animeList/:id',(req,res,next)=>{
             res.status(202).send(response.rows[0]);
         })
         .catch(e=>next(400))
+    }
+})
+app.delete('/api/animeList/:id',(req,res,next)=>{
+    let id = req.params.id;
+    if (isNaN(id)) return next(404);
+    else {
+        pg.query(`DELETE FROM anime WHERE id = $1 RETURNING *`,[id]).then(response=>{
+            if (response.rows.length ===0) return next(404);
+            else {
+                res.status(202).send(response.rows[0]);
+            }
+        })
     }
 })
 app.use((error,req,res)=>{
