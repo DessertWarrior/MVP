@@ -1,5 +1,4 @@
 const dotenv = require("dotenv");
-const fs = require('fs');
 const { Pool } = require("pg");
 const express = require("express");
 const app = express();
@@ -92,12 +91,6 @@ app.post("/api/animeList", (req, res, next) => {
     })
     .catch((e) => next(400));
 });
-// app.post("/api/fetchList",(req,res,next)=> {
-//     try {
-//         fetchIntoDatabase();
-//         res.status(201).send('Created');
-//     } catch(e) {next(500)};
-// })
 app.patch("/api/animeList/:id", (req, res, next) => {
   let id = req.params.id;
   let data = req.body;
@@ -160,81 +153,3 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`Listening to port ${port}`);
 });
-
-// async function fetchIntoDatabase() {
-//     let file= [];
-//     let genreArr= [];
-//   fetch("https://myanimelist.net/anime/season/2023/spring")
-//     .then((response) => response.text())
-//     .then((data) => {
-//       const dom = new JSDOM(data);
-//       const document = dom.window.document;
-//       const newContent = document.querySelector(".seasonal-anime-list");
-//       //this is the card content
-//       const parentElements = newContent.querySelectorAll(
-//         ".js-anime-category-producer"
-//       );
-//       parentElements.forEach((parentElement) => {
-//         const titleElement = parentElement.querySelector(
-//           ".title-text > .h2_anime_title > a"
-//         );
-//         const title = titleElement ? titleElement.textContent.trim() : null;
-//         const synopsisElement = parentElement.querySelector('.synopsis > p.preline');
-//         const synopsis = synopsisElement?synopsisElement.textContent.trim(): null;
-//         const imageElement = parentElement.querySelector('.image > a > img');
-//         const imageSrc = imageElement.getAttribute('src');
-//         const genresElement = parentElement.querySelector(".genres-inner");
-//         const genres = Array.from(
-//           genresElement.querySelectorAll(".genre > a")
-//         ).map((genreElement) => genreElement.textContent);
-//         const studioElement = parentElement.querySelector('.properties > .property:nth-child(1) > .item > a');
-//         const studio = studioElement?studioElement.textContent.trim(): null;
-//         const sourceElement = parentElement.querySelector('.properties > .property:nth-child(2) > .item');
-//         const source = sourceElement?sourceElement.textContent.trim(): null;
-//         const themeElement = parentElement.querySelector('.properties > .property:nth-child(3) > .item > a');
-//         const theme = themeElement?themeElement.textContent.trim() : null;
-//         const scoreElement = parentElement.querySelector('.scormem-item.score');
-//         const score = scoreElement.textContent.trim() == 'N/A' ?null: scoreElement.textContent.trim();
-//         const memberElement = parentElement.querySelector('.scormem-item.member');
-//         const member = memberElement?memberElement.textContent.trim(): null;
-//         // console.log('Title:', title);
-//         // console.log('Synopsis:', synopsis);
-//         // console.log('Image Source:', imageSrc);
-//         // console.log('Genres:', genres);
-//         // console.log('Studio:', studio);
-//         // console.log('Source:', source);
-//         // console.log('Theme:', theme);
-//         // console.log('Score:', score);
-//         // console.log('Member Count:', member);
-//         const values = [title,synopsis,imageSrc,studio,source,theme,score,null];
-//         file.push(
-//             `INSERT INTO anime(title,synosis,image,studio,source,theme,score,opening) VALUES('${title}','${synopsis}','${imageSrc}','${studio}','${source}','${theme}','${score}',null);`
-//           );
-//           console.log(genres.length);
-//           if (genres.length === 0 )
-//           {
-
-//             pg.query(`SELECT id FROM anime WHERE title = $1`,[title]).then(response=>{
-//                 genreArr.push(
-//                     `INSERT INTO animeGenre(name,genre,anime_id) VALUES('${title}','others',${response.rows[0].id});`
-//                 ); 
-//                 console.log(genreArr[genreArr.length-1]);
-//             })
-//           }
-//           for (let i = 0; i < genres.length; i++)
-//           {
-//             pg.query(`SELECT id FROM anime WHERE title = $1`,[title]).then(response=>{
-//                 genreArr.push(
-//                     `INSERT INTO animeGenre(name,genre,anime_id) VALUES('${title}','${genres[i]}',${response.rows[0].id});`
-//                   );
-//                   console.log(genreArr[genreArr.length-1]);
-//             })
-            
-//           }
-//           });
-//         //   file.forEach((element) => {
-//         //     console.log(element);
-//         // });
-//       });
-//   }
-
