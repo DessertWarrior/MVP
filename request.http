@@ -1,20 +1,14 @@
 GET https://animeapi-qqzb.onrender.com/animeList
 ###
-GET http://localhost:8000/animeList
+GET http://localhost:8000/api/animeList/1
 
 ###
-POST http://localhost:8000/api/animeList
+PATCH http://localhost:8000/api/animeList/3
 Content-Type: application/json
 
 {
-    "title": "Dr. Stone: New World",
-    "image":"https://cdn.myanimelist.net/images/anime/1794/135148.webp",
-    "studio": "TMS Entertainment",
-    "source": "Manga",
-    "theme" : "Time Travel",
-    "score": 8.32,
-    "genre": ["action", "comedy"]
+    "opening": "https://www.youtube.com/watch?v=RS94j08yIHs&list=RDpyvpg2mK5Do&index=2"
 }
 
-###
-GET https://api.myanimelist.net/v2/anime/season/2023/spring
+### Fetch Data
+POST http://localhost:8000/api/fetchList

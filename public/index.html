@@ -4,58 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/public/style.css" rel="stylesheet" >
+    <link href="style.css" rel="stylesheet" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="/public/index.js" defer></script>
+    <script src="index.js" defer></script>
     <title>MVP Front End</title>
 </head>
 <body>
-    <h1 class="title">April 2023 Anime</h1>
-    <form id="searchForm">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <input type="text" placeholder="search...">
-    </form>
-    <label class="genre_name">Comedy</label>
-    <div class="genre_container">
-        <div class="card">
-            <label>KonoSuba: An Explosion on This Wonderful World!</label>
-            <img src="https://cdn.myanimelist.net/images/anime/1895/124133l.jpg?_gl=1*5ayhrt*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0MjAzOS41NS4wLjA.">
-        </div>
-        <div class="card">
-            <label>Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc</label>
-            <img src="https://cdn.myanimelist.net/images/anime/1818/134058l.jpg?_gl=1*11mu0t1*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0MzA2Ny4yNi4wLjA."></img>
-        </div>
-        <div class="card">
-            <label>Dr. Stone: New World</label>
-            <img src="https://cdn.myanimelist.net/images/anime/1255/135158l.jpg?_gl=1*11je2m3*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0MzE0Ny40OC4wLjA."></img>
-        </div>
-        <div class="card">
-            <label>The Legendary Hero Is Dead!</label>
-            <img src="https://cdn.myanimelist.net/images/anime/1868/133866l.jpg?_gl=1*3446m4*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0NTU1Mi4xOC4wLjA."></img>
-        </div>
-        <div class="card">
-            <label>Skip to Loafer</label>
-            <img src="https://cdn.myanimelist.net/images/anime/1355/133785.webp"></img>
-        </div>
-        <div class="card">
-            <label>Konosuba</label>
-            <img href="https://cdn.myanimelist.net/images/anime/1895/124133l.jpg?_gl=1*5ayhrt*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0MjAzOS41NS4wLjA."></img>
-        </div>
-        <div class="card">
-            <label>Konosuba</label>
-            <img href="https://cdn.myanimelist.net/images/anime/1895/124133l.jpg?_gl=1*5ayhrt*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0MjAzOS41NS4wLjA."></img>
-        </div>
-        <div class="card">
-            <label>Konosuba</label>
-            <img href="https://cdn.myanimelist.net/images/anime/1895/124133l.jpg?_gl=1*5ayhrt*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0MjAzOS41NS4wLjA."></img>
-        </div>
-        <div class="card">
-            <label>Konosuba</label>
-            <img href="https://cdn.myanimelist.net/images/anime/1895/124133l.jpg?_gl=1*5ayhrt*_ga*MTY0ODI0Nzc5OC4xNjgxMTM2NzI5*_ga_26FEP9527K*MTY4MTE0MTY5My4yLjEuMTY4MTE0MjAzOS41NS4wLjA."></img>
+    <div class="content-wrapper">
+        <h1 class="title" onclick=loadPosts()>April 2023 Anime</h1>
+        <div class ='tools-wrapper'>
+            <form id="addForm">
+                <i class="fa fa-plus" aria-hidden="true" onclick=newPost()></i>
+            </form>
+            <form id="deleteForm">
+                <i class="fa fa-trash" aria-hidden="true" onclick=deletePost()></i>
+            </form>
+        <form id="searchForm">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input type="text" placeholder="search...">
+        </form>
         </div>
     </div>
-    <div class="genre_container"></div>
-    <div class="genre_container"></div>
-    <div class="genre_container"></div>
+    <div class="container"></div>
+    
 </body>
 </html>
