@@ -213,7 +213,7 @@ async function addResult(anime) {
 }
 function addCard(anime) {
   let containerEl = document.querySelector(
-    `.${anime.genre}_container > .genre_content`
+    `.${anime.genre}_container > div`
   );
   //console.log(containerEl);
   if (!containerEl) {
