@@ -1,6 +1,8 @@
 const dotenv = require("dotenv");
 const { Pool } = require("pg");
 const express = require("express");
+const basicAuth = require('express-basic-auth')
+
 const app = express();
 dotenv.config();
 console.log(process.env.DATABASE_URL);
@@ -8,11 +10,18 @@ const port = process.env.PORT || 3000;
 const pg = new Pool({ connectionString: process.env.DATABASE_URL });
 pg.connect();
 
+const auth = basicAuth({
+  users: { admin: "password" },
+  challenge: true,
+  realm: "Required",
+});
+
 app.use(express.json());
 app.use(require("body-parser").urlencoded({ extended: false }));
 app.use(express.static("public"));
+app.use(auth);
 
-app.get("/", (req, res) => {
+app.get("/", (req, res,next) => {
   res.json({
     hello: "world",
   });
@@ -23,7 +32,7 @@ app.get("/api/animeList", (req, res,next) => {
     `SELECT anime.id,anime.title,anime.image,animeGenre.genre FROM anime INNER JOIN animeGenre ON anime.id = animeGenre.anime_id ORDER BY id ASC`
   ).then((response) => res.send(response.rows));
 });
-app.get("/api/animeList/:id", (req, res, next) => {
+app.get("/api/animeList/:id", auth,(req, res, next) => {
   let id = req.params.id;
   if (isNaN(id)) next(404);
   pg.query(`SELECT * FROM anime WHERE id = $1`, [id]).then((response) => {
