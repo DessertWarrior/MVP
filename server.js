@@ -21,13 +21,13 @@ app.use(require("body-parser").urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use(auth);
 
-app.get("/", (req, res,next) => {
+app.get("/", (req, res) => {
   res.json({
     hello: "world",
   });
 });
 
-app.get("/api/animeList", (req, res,next) => {
+app.get("/api/animeList", (req, res) => {
   pg.query(
     `SELECT anime.id,anime.title,anime.image,animeGenre.genre FROM anime INNER JOIN animeGenre ON anime.id = animeGenre.anime_id ORDER BY id ASC`
   ).then((response) => res.send(response.rows));

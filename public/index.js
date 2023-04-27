@@ -5,7 +5,9 @@ async function loadPosts(){
   fetch("/api/animeList")
     .then((res) => res.json())
     .then((result) => {
+      console.log(result);
       result.forEach((element) => {
+        
          addCard(element);
       });
     });
@@ -211,24 +213,24 @@ async function addResult(anime) {
     textarea.style.height = textarea.scrollHeight + 3 + "px";
   });
 }
-async function addCard(anime) {
-  try {
-    let containerEl = document.querySelector(`.${anime.genre}_container > div`);
-    if (!containerEl) throw new Error();
-    else containerEl.appendChild(makeCard(anime));
-  } catch (e) {
-    containerEl = document.createElement("div");
-    containerEl.className = `${anime.genre}_container`;
-    containerEl.style.marginBottom = "50px";
-    containerEl.innerHTML += `<label class="genre_name">${anime.genre}</label>`;
-    containerEl.innerHTML += `<div class="genre_content"></div>`;
-    document.querySelector(".container").appendChild(containerEl);
-    containerEl = containerEl.querySelector(".genre_content");
-    containerEl.style.display = "flex";
-    containerEl.style.overflowX = "auto";
-    containerEl.style.width = "100%";
-    containerEl.style.gap = "30px";
-  }
+function addCard(anime) {
+    let concatString = anime.genre.replaceAll(' ', '_');
+    let containerEl = document.querySelector(`.${concatString}_container > div`);
+    if (!containerEl) 
+    {
+      containerEl = document.createElement("div");
+      containerEl.className = `${concatString}_container`;
+      containerEl.style.marginBottom = "50px";
+      containerEl.innerHTML += `<label class="genre_name">${anime.genre}</label>`;
+      containerEl.innerHTML += `<div class="genre_content"></div>`;
+      document.querySelector(".container").appendChild(containerEl);
+      containerEl = containerEl.querySelector(".genre_content");
+      containerEl.style.display = "flex";
+      containerEl.style.overflowX = "auto";
+      containerEl.style.width = "100%";
+      containerEl.style.gap = "30px";
+    }
+    containerEl.appendChild(makeCard(anime));
 }
 
 function makeCard(anime) {

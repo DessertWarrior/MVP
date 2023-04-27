@@ -1,6 +1,7 @@
 GET https://animeapi-qqzb.onrender.com/animeList
 ###
-GET http://localhost:8000/api/animeList/1
+GET http://localhost:8000/api/animeList/
+Authorization: Basic cGFzc3dvcmQ=
 
 ###
 PATCH http://localhost:8000/api/animeList/3
