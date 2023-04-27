@@ -1,5 +1,7 @@
-let pageIndex= null;
+let pageIndex;
+
 async function loadPosts(){
+  pageIndex = null;
   let container = document.querySelector('.container');
   container.innerHTML = '';
   fetch("/api/animeList")
@@ -7,7 +9,6 @@ async function loadPosts(){
     .then((result) => {
       console.log(result);
       result.forEach((element) => {
-        
          addCard(element);
       });
     });

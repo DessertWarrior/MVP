@@ -66,8 +66,9 @@ app.get('/api/animeLists/:id',(req,res)=>{
         });
 })
 app.post("/api/animeList", (req, res, next) => {
-  let data = req.body;
+  let data = req.body;console.log(data.genre);
   let genres = data.genre.trim()== '' ? ['others']: data.genre.split(','); //get from req.body and set to an array
+  
   let result;
   const values = [
     data.title,
