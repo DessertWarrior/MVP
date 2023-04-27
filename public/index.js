@@ -212,9 +212,11 @@ async function addResult(anime) {
   });
 }
 async function addCard(anime) {
-  let containerEl = document.querySelector(`.${anime.genre}_container > div`);
-  //console.log(containerEl);
-  if (!containerEl) {
+  try {
+    let containerEl = document.querySelector(`.${anime.genre}_container > div`);
+    if (!containerEl) throw new Error();
+    else containerEl.appendChild(makeCard(anime));
+  } catch (e) {
     containerEl = document.createElement("div");
     containerEl.className = `${anime.genre}_container`;
     containerEl.style.marginBottom = "50px";
@@ -227,8 +229,8 @@ async function addCard(anime) {
     containerEl.style.width = "100%";
     containerEl.style.gap = "30px";
   }
-  containerEl.appendChild(makeCard(anime));
 }
+
 function makeCard(anime) {
   const cardEl = document.createElement("div");
   cardEl.className = "card";
