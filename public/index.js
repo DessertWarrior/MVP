@@ -1,12 +1,12 @@
 let pageIndex= null;
-function loadPosts(){
+async function loadPosts(){
   let container = document.querySelector('.container');
   container.innerHTML = '';
   fetch("/api/animeList")
     .then((res) => res.json())
     .then((result) => {
       result.forEach((element) => {
-        addCard(element);
+         addCard(element);
       });
     });
 } 
@@ -211,10 +211,8 @@ async function addResult(anime) {
     textarea.style.height = textarea.scrollHeight + 3 + "px";
   });
 }
-function addCard(anime) {
-  let containerEl = document.querySelector(
-    `.${anime.genre}_container > div`
-  );
+async function addCard(anime) {
+  let containerEl = document.querySelector(`.${anime.genre}_container > div`);
   //console.log(containerEl);
   if (!containerEl) {
     containerEl = document.createElement("div");
