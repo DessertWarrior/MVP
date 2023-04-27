@@ -14,12 +14,21 @@ body {
 .popup {
     --height: 300px;
     --width: 500px;
-    background-color: whitesmoke;
+    border: 5px wheat solid;
+    background-color:  coral;
+    color: white;
+    font-weight: bold;
     position: absolute;
     left: calc(50% - var(--width)/2 );
     top:calc(50% - var(--height)/2 );
     width: var(--width);
     font-size: 100px;
+    display:flex;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
 }
 .content-wrapper {
     overflow: auto;
